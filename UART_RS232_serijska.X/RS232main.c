@@ -18,9 +18,16 @@ Opis programa:  vraca nazad poslati podatak sa mikrokontrolera
 #include <p30fxxxx.h>
 #include <string.h>
 #include <time.h>
+#include "driverGLCD.h"
+#include "adc.h"
 
-_FOSC(CSW_FSCM_OFF & XT_PLL4);//instruction takt je isti kao i kristal
+#define DRIVE_A PORTCbits.RC13
+#define DRIVE_B PORTCbits.RC14
+
+//_FOSC(CSW_FSCM_OFF & XT_PLL4);//instruction takt je isti kao i kristal
+_FOSC(CSW_ON_FSCM_OFF & HS3_PLL4);
 _FWDT(WDT_OFF);
+_FGS(CODE_PROT_OFF);
 
 unsigned char tempRX;
 unsigned int i, j ,n, hit, r, duzina;
@@ -28,6 +35,16 @@ int buf;
 //char grad[];
 char otkriveno[20];
 int zivoti=6;
+unsigned int X, Y,x_vrednost, y_vrednost;
+
+//const unsigned int ADC_THRESHOLD = 900; 
+const unsigned int AD_Xmin =220;
+const unsigned int AD_Xmax =3642;
+const unsigned int AD_Ymin =520;
+const unsigned int AD_Ymax =3450;
+
+unsigned int sirovi0,sirovi1;
+unsigned int broj,broj1,broj2,temp0,temp1; 
 
 char grad[10][20]={ //lista gradova
     "london", "sarajevo", "amsterdam", 
@@ -35,11 +52,24 @@ char grad[10][20]={ //lista gradova
     "kraljevo", "skurbla", "pariz"
 };
 
+void ConfigureTSPins(void)
+{
+	//ADPCFGbits.PCFG10=1;
+	//ADPCFGbits.PCFG7=digital;
+
+	//TRISBbits.TRISB10=0;
+	TRISCbits.TRISC13=0;
+    TRISCbits.TRISC14=0;
+	
+	//LATCbits.LATC14=0;
+	//LATCbits.LATC13=0;
+}
+
 void initUART1(void)
 {
     U1BRG=0x0040;//ovim odredjujemo baudrate
 
-    U1MODEbits.ALTIO=1;//biramo koje pinove koristimo za komunikaciju osnovne ili alternativne
+    U1MODEbits.ALTIO=0;//biramo koje pinove koristimo za komunikaciju osnovne ili alternativne
 
     IEC0bits.U1RXIE=1;//omogucavamo rx1 interupt
 
@@ -61,6 +91,16 @@ void __attribute__((__interrupt__)) _U1RXInterrupt(void)
     };
 }
 
+void __attribute__((__interrupt__)) _ADCInterrupt(void) 
+{
+	sirovi0=ADCBUF0;//0
+	sirovi1=ADCBUF1;//1
+
+	temp0=sirovi0;
+	temp1=sirovi1;
+
+    IFS0bits.ADIF = 0;
+}
 
 /*********************************************************************
 * Ime funkcije      : WriteUART1                                     *
@@ -89,9 +129,96 @@ void RS232_putst(register const char *str)
   }
 }
 
+void WriteUART1dec2string(unsigned int data)
+{
+	unsigned char temp;
+
+	temp=data/1000;
+	WriteUART1(temp+'0');
+	data=data-temp*1000;
+	temp=data/100;
+	WriteUART1(temp+'0');
+	data=data-temp*100;
+	temp=data/10;
+	WriteUART1(temp+'0');
+	data=data-temp*10;
+	WriteUART1(data+'0');
+}
+void Delay(unsigned int N)
+{
+	unsigned int i;
+	for(i=0;i<N;i++);
+}
+
+void Touch_Panel (void)
+{
+// vode horizontalni tranzistori
+	DRIVE_A = 1;  
+	DRIVE_B = 0;
+    
+     LATCbits.LATC13=1;
+     LATCbits.LATC14=0;
+
+	Delay(500); //cekamo jedno vreme da se odradi AD konverzija
+				
+	// ocitavamo x	
+	x_vrednost = temp0;//temp0 je vrednost koji nam daje AD konvertor na BOTTOM pinu		
+
+	// vode vertikalni tranzistori
+     LATCbits.LATC13=0;
+     LATCbits.LATC14=1;
+	DRIVE_A = 0;  
+	DRIVE_B = 1;
+
+	Delay(500); //cekamo jedno vreme da se odradi AD konverzija
+	
+	// ocitavamo y	
+	y_vrednost = temp1;// temp1 je vrednost koji nam daje AD konvertor na LEFT pinu	
+	
+//Ako želimo da nam X i Y koordinate budu kao rezolucija ekrana 128x64 treba skalirati vrednosti x_vrednost i y_vrednost tako da budu u opsegu od 0-128 odnosno 0-64
+//skaliranje x-koordinate
+
+    X=(x_vrednost-161)*0.03629;
+
+
+
+//X= ((x_vrednost-AD_Xmin)/(AD_Xmax-AD_Xmin))*128;	
+//vrednosti AD_Xmin i AD_Xmax su minimalne i maksimalne vrednosti koje daje AD konvertor za touch panel.
+
+
+//Skaliranje Y-koordinate
+	Y= ((y_vrednost-500)*0.020725);
+
+//	Y= ((y_vrednost-AD_Ymin)/(AD_Ymax-AD_Ymin))*64;
+}
+
+void Write_GLCD(unsigned int data)
+{
+    unsigned char temp;
+
+    temp=data/1000;
+    Glcd_PutChar(temp+'0');
+    data=data-temp*1000;
+    temp=data/100;
+    Glcd_PutChar(temp+'0');
+    data=data-temp*100;
+    temp=data/10;
+    Glcd_PutChar(temp+'0');
+    data=data-temp*10;
+    Glcd_PutChar(data+'0');
+}
+
 int main(int argc, char** argv) {
     
+    ConfigureLCDPins();
+	ConfigureTSPins();
+	GLCD_LcdInit();
+	GLCD_ClrScr();
     initUART1();
+	ADCinit();
+	ConfigureADCPins();
+	ADCON1bits.ADON=1;
+    
     //r=9;
     r = rand() % 10;//TO_DO ne daje rand broj jer mikrokontroler uvek ima isti seed, promeniti na ucitavanje ADC signala sa nepovezanog pina
     for (duzina = 0; grad[r][duzina] != '\0'; duzina++); //racunanje duzina stringa
@@ -105,8 +232,12 @@ int main(int argc, char** argv) {
 	{
         RS232_putst(otkriveno);
         WriteUART1(13);//novi red
+        GoToXY(45,2);
+        GLCD_Printf (otkriveno);
         
-        while(buf==0);//cekanje dok korisnik ne unese nesto u serijsku komunikaciju
+        while(buf==0){//cekanje dok korisnik ne unese nesto u serijsku komunikaciju
+            //RS232_putst("string");//novi red
+        };
         hit=1;//flag za oduzimanje zivota, po defaultu treba da oduzme
         for(i=0; i<duzina; i++){
             if(buf==grad[r][i]){
@@ -117,13 +248,20 @@ int main(int argc, char** argv) {
         
         if(hit==1)zivoti--;
         
-        if(zivoti==0){//ako je GAMEOVER onda uradi ispis
+        if(zivoti==0){//ako je GAMEOVER onda uradi ispis i resetuj
+            GLCD_ClrScr();
             RS232_putst("GAME OVER");
             WriteUART1(13);//novi red
+            GoToXY(10,8);
+            GLCD_Printf ("GAME OVER");
+            
             RS232_putst("Resenje: ");
+            GoToXY(50,2);
+            GLCD_Printf ("Resenje: ");
             RS232_putst(grad[r]);
             WriteUART1(13);//novi red
             WriteUART1(13);//novi red
+            GLCD_Printf (grad[r]);
             zivoti=6;
             //r=9;
             r = rand() % 10;//TO_DO ne daje rand broj jer mikrokontroler uvek ima isti seed, promeniti na ucitavanje ADC signala sa nepovezanog pina
