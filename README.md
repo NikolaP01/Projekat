@@ -1,5 +1,3 @@
-KORISTITI UART*.X , NE PROJEKAT.X
-
 # Projekat
 
 TO_DO
