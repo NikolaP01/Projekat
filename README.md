@@ -1,3 +1,5 @@
+Napravljen branch za GLCD, main branch je samo serijska i radi ispravno, trenutno zakljucan.
+
 # Projekat
 
 TO_DO
