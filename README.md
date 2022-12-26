@@ -10,5 +10,3 @@ TO_DO
 //FotoR bi trebalo da smanjuje otpornost kada uperimo svetlo u njega
 
 4. Popraviti random funkciju da radi preko ADC sa nepovezanog pina
-
-*. Namestiti GitHub repozitorijum da radi
