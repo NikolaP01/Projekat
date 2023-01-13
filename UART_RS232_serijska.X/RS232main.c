@@ -24,13 +24,13 @@ Opis programa:  vraca nazad poslati podatak sa mikrokontrolera
 #define DRIVE_A PORTCbits.RC13
 #define DRIVE_B PORTCbits.RC14
 
-//_FOSC(CSW_FSCM_OFF & XT_PLL4);//instruction takt je isti kao i kristal
-_FOSC(CSW_ON_FSCM_OFF & HS3_PLL4);
+_FOSC(CSW_FSCM_OFF & XT_PLL4);//instruction takt je isti kao i kristal
+//_FOSC(CSW_ON_FSCM_OFF & HS3_PLL4);
 _FWDT(WDT_OFF);
 _FGS(CODE_PROT_OFF);
 
 unsigned char tempRX;
-unsigned int i, j ,n, hit, r, duzina;
+unsigned int i, j ,n, hit, win, r, duzina;
 int buf;
 //char grad[];
 char otkriveno[20];
@@ -49,7 +49,7 @@ unsigned int broj,broj1,broj2,temp0,temp1;
 char grad[10][20]={ //lista gradova
     "london", "sarajevo", "amsterdam", 
     "milan", "hag", "nis", "kragujevac", 
-    "kraljevo", "skurbla", "pariz"
+    "kraljevo", "subotica", "pariz"
 };
 
 void ConfigureTSPins(void)
@@ -82,7 +82,7 @@ void initUART1(void)
 
 
 void __attribute__((__interrupt__)) _U1RXInterrupt(void) 
-{
+{  
     IFS0bits.U1RXIF = 0;
     tempRX=U1RXREG;
     
@@ -112,7 +112,7 @@ void __attribute__((__interrupt__)) _ADCInterrupt(void)
 
 void WriteUART1(unsigned int data)
 {
-	  while(!U1STAbits.TRMT);
+	while(!U1STAbits.TRMT);
 
     if(U1MODEbits.PDSEL == 3)
         U1TXREG = data;
@@ -230,38 +230,86 @@ int main(int argc, char** argv) {
 
 	while(1)
 	{
+        GLCD_ClrScr();
         RS232_putst(otkriveno);
         WriteUART1(13);//novi red
-        GoToXY(45,2);
+        GoToXY(40,2);
         GLCD_Printf (otkriveno);
-        
+        GoToXY(40,4);
+        GLCD_Printf (grad[r]);
+        GoToXY(5,6);
+        GLCD_Printf ("Zivoti: ");
+        for(i=0; i<zivoti; i++){
+                GLCD_Printf ("<3");
+            }
         while(buf==0){//cekanje dok korisnik ne unese nesto u serijsku komunikaciju
-            //RS232_putst("string");//novi red
+            //bilo sta
         };
+        //ako hocemo da otkrijemo celu rec odjednom
+        //if(tempRX==grad[r])...
         hit=1;//flag za oduzimanje zivota, po defaultu treba da oduzme
+        win=1;
         for(i=0; i<duzina; i++){
             if(buf==grad[r][i]){
                 otkriveno[i]=grad[r][i];//otkrivanje slova
                 hit=0;//ako je pronadjeno slovo onda spusti flag
             }
         }
-        
+        for(i=0; i<duzina; i++){//ako nema praznog mesta igrac je pobedio
+            if(otkriveno[i]=='_'){
+                win=0;//ako nadje prazno mesto spusti zastavicu za pobedu
+            }
+        }
         if(hit==1)zivoti--;
+        
+        if(win==1){//ako pogodi sve
+            GLCD_ClrScr();
+            RS232_putst("POBEDILI STE");
+            WriteUART1(13);//novi red
+            GoToXY(40,2);
+            GLCD_Printf ("POBEDILI STE");
+            
+            WriteUART1(13);//novi red
+            WriteUART1(13);//novi red
+            for(i=0; i<10000; i++){
+                for(j=0; j<750; j++);
+            }
+            GLCD_ClrScr();
+            for(i=0; i<20; i++){
+                otkriveno[i]='\0';
+            }
+            zivoti=6;
+            //r=9;
+            r = rand() % 10;//TO_DO ne daje rand broj jer mikrokontroler uvek ima isti seed, promeniti na ucitavanje ADC signala sa nepovezanog pina
+            for (duzina = 0; grad[r][duzina] != '\0'; duzina++); //racunanje duzina stringa
+            for(i=0; i<duzina; i++){
+                //otkriveno[i]=grad[r][i]; //da otkriveno bude odabrani grad
+                otkriveno[i]='_';//da otkriveno bude niz __ duzine odabranog grada
+            };
+        }
         
         if(zivoti==0){//ako je GAMEOVER onda uradi ispis i resetuj
             GLCD_ClrScr();
             RS232_putst("GAME OVER");
             WriteUART1(13);//novi red
-            GoToXY(10,8);
+            GoToXY(40,2);
             GLCD_Printf ("GAME OVER");
             
             RS232_putst("Resenje: ");
-            GoToXY(50,2);
+            GoToXY(40,4);
             GLCD_Printf ("Resenje: ");
             RS232_putst(grad[r]);
             WriteUART1(13);//novi red
             WriteUART1(13);//novi red
+            GoToXY(40,5);
             GLCD_Printf (grad[r]);
+            for(i=0; i<10000; i++){
+                for(j=0; j<750; j++);
+            }
+            GLCD_ClrScr();
+            for(i=0; i<20; i++){
+                otkriveno[i]='\0';
+            }
             zivoti=6;
             //r=9;
             r = rand() % 10;//TO_DO ne daje rand broj jer mikrokontroler uvek ima isti seed, promeniti na ucitavanje ADC signala sa nepovezanog pina
