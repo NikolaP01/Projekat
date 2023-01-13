@@ -6,3 +6,6 @@ TO_DO
 
 2. Fotootpornik, implementirati biranje grade preko vrednosti na fotoR
 //FotoR bi trebalo da smanjuje otpornost kada uperimo svetlo u njega
+
+3. Piezo Buzzer, nek' pisti na izgubljen zivot kratko a na GAME OVER dugo
+//treba nesto preko PWM-a
