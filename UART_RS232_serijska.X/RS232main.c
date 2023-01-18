@@ -20,21 +20,30 @@ Opis programa:  vraca nazad poslati podatak sa mikrokontrolera
 #include <time.h>
 #include "driverGLCD.h"
 #include "adc.h"
+#include <outcompare.h>
+#include "timer2.h"
+#include "stdint.h"
 
 #define DRIVE_A PORTCbits.RC13
 #define DRIVE_B PORTCbits.RC14
+#define KEY_NOT_PRESSED (-1)
 
 _FOSC(CSW_FSCM_OFF & XT_PLL4);//instruction takt je isti kao i kristal
 //_FOSC(CSW_ON_FSCM_OFF & HS3_PLL4);
 _FWDT(WDT_OFF);
 _FGS(CODE_PROT_OFF);
 
+uint64_t freq_values[8][2] = { { 5682, 2841 }, { 6378, 3189 }, { 7159, 3579 }, { 7584, 3792 },    // 8 kHz, 4 kHz, 2 kHz, 1 kHz, 
+                                       { 8513, 4257 }, { 9556, 4778 }, { 10124, 5062 }, { 11364, 5682 } };  // 500 Hz, 250 Hz, 125 Hz
+int key_pressed = KEY_NOT_PRESSED;
+
 unsigned char tempRX;
-unsigned int i, j ,n, hit, win, r, duzina;
+unsigned int i, j ,n, hit, win, r, r1, r2, duzina;
 int buf;
 //char grad[];
 char otkriveno[20];
 int zivoti=6;
+int pomoc=3;
 unsigned int X, Y,x_vrednost, y_vrednost;
 
 //const unsigned int ADC_THRESHOLD = 900; 
@@ -43,8 +52,8 @@ const unsigned int AD_Xmax =3642;
 const unsigned int AD_Ymin =520;
 const unsigned int AD_Ymax =3450;
 
-unsigned int sirovi0,sirovi1;
-unsigned int broj,broj1,broj2,temp0,temp1; 
+unsigned int sirovi0,sirovi1,sirovi2,sirovi3;
+unsigned int broj,broj1,broj2,temp0,temp1,pir,fr; 
 
 char grad[10][20]={ //lista gradova
     "london", "sarajevo", "amsterdam", 
@@ -95,11 +104,22 @@ void __attribute__((__interrupt__)) _ADCInterrupt(void)
 {
 	sirovi0=ADCBUF0;//0
 	sirovi1=ADCBUF1;//1
+    sirovi2=ADCBUF2;//0
+	sirovi3=ADCBUF3;//1
 
-	temp0=sirovi0;
-	temp1=sirovi1;
+	pir=sirovi0;
+    fr=sirovi1;
+    temp0=sirovi2;
+	temp1=sirovi3;
 
     IFS0bits.ADIF = 0;
+}
+
+void __attribute__((__interrupt__)) _T2Interrupt(void)
+{
+
+   	TMR2 =0;
+    IFS0bits.T2IF = 0;
 }
 
 /*********************************************************************
@@ -219,13 +239,34 @@ int main(int argc, char** argv) {
 	ConfigureADCPins();
 	ADCON1bits.ADON=1;
     
+    //BUZZER
+    TRISDbits.TRISD9=0;//konfigurisemo kao izlaz za pwm 
+    PR2= 2; //freq_values[0][0];//odredjuje frekvenciju po formuli
+        OC1RS=1; //freq_values[0][1];//postavimo pwm
+        OC1R=2000;//inicijalni pwm pri paljenju samo
+        OC1CON =OC_IDLE_CON & OC_TIMER2_SRC & OC_PWM_FAULT_PIN_DISABLE& T2_PS_1_256;//konfiguracija pwma
+        T2CONbits.TON=1;//ukljucujemo timer koji koristi
+        
+        
+    /*if (key_pressed != (-1))
+        {
+          PR2   = freq_values[key_pressed][0];//odredjuje frekvenciju po formuli
+          OC1RS = freq_values[key_pressed][1];//postavimo pwm
+        } else
+        {
+          PR2   = 2;
+          OC1RS = 1;
+        }
+     */ //za buzzer ukljucivanje
+    
     //r=9;
-    r = rand() % 10;//TO_DO ne daje rand broj jer mikrokontroler uvek ima isti seed, promeniti na ucitavanje ADC signala sa nepovezanog pina
-    for (duzina = 0; grad[r][duzina] != '\0'; duzina++); //racunanje duzina stringa
+    r1 = rand() % 10;//TO_DO ne daje rand broj jer mikrokontroler uvek ima isti seed, promeniti na ucitavanje ADC signala sa nepovezanog pina
+    for (duzina = 0; grad[r1][duzina] != '\0'; duzina++); //racunanje duzina stringa
     for(i=0; i<duzina; i++){
         //otkriveno[i]=grad[r][i]; //da otkriveno bude odabrani grad
         otkriveno[i]='_';//da otkriveno bude niz __ duzine odabranog grada
     };
+    pomoc=3;
     
 
 	while(1)
@@ -235,23 +276,64 @@ int main(int argc, char** argv) {
         WriteUART1(13);//novi red
         GoToXY(40,2);
         GLCD_Printf (otkriveno);
-        GoToXY(40,4);
-        GLCD_Printf (grad[r]);
+        GoToXY(5,4);
+        GLCD_Printf ("Pomoc PIR-a: ");
+        for(i=0; i<pomoc; i++){
+                GLCD_Printf ("* ");
+            }
         GoToXY(5,6);
         GLCD_Printf ("Zivoti: ");
         for(i=0; i<zivoti; i++){
                 GLCD_Printf ("<3");
             }
         while(buf==0){//cekanje dok korisnik ne unese nesto u serijsku komunikaciju
-            //bilo sta
+            WriteUART1(' ');
+            WriteUART1dec2string(sirovi0);
+            WriteUART1(' ');
+            WriteUART1dec2string(sirovi1);
+            WriteUART1(13);//enter
+
+            for(broj1=0;broj1<2000;broj1++)
+            for(broj2=0;broj2<500;broj2++);
+            
+            if(sirovi0 > 2000 && pomoc>0){
+                pomoc--;
+                j=0;
+                for(i=0; i<duzina; i++){//ako nema praznog mesta igrac je pobedio
+                    if(otkriveno[i]=='_') j++;
+                }
+                r2= rand() % j;
+                j=0;
+                for(i=0; i<duzina; i++){//ako nema praznog mesta igrac je pobedio
+                    if(otkriveno[i]=='_'){
+                        if (j==r2) otkriveno[i]=grad[r1][i];
+                        j++;
+                    }
+                }
+                GLCD_ClrScr();
+                RS232_putst(otkriveno);
+                WriteUART1(13);//novi red
+                GoToXY(40,2);
+                GLCD_Printf (otkriveno);
+                GoToXY(5,4);
+                GLCD_Printf ("Pomoc PIR-a: ");
+                for(i=0; i<pomoc; i++){
+                    GLCD_Printf ("* ");
+                }
+                GoToXY(5,6);
+                GLCD_Printf ("Zivoti: ");
+                for(i=0; i<zivoti; i++){
+                    GLCD_Printf ("<3");
+                }
+            }
         };
         //ako hocemo da otkrijemo celu rec odjednom
         //if(tempRX==grad[r])...
         hit=1;//flag za oduzimanje zivota, po defaultu treba da oduzme
         win=1;
         for(i=0; i<duzina; i++){
-            if(buf==grad[r][i]){
-                otkriveno[i]=grad[r][i];//otkrivanje slova
+            if(buf==grad[r1][i]){
+                otkriveno[i]=grad[r1][i];//otkrivanje slova
                 hit=0;//ako je pronadjeno slovo onda spusti flag
             }
         }
@@ -280,8 +362,8 @@ int main(int argc, char** argv) {
             }
             zivoti=6;
             //r=9;
-            r = rand() % 10;//TO_DO ne daje rand broj jer mikrokontroler uvek ima isti seed, promeniti na ucitavanje ADC signala sa nepovezanog pina
-            for (duzina = 0; grad[r][duzina] != '\0'; duzina++); //racunanje duzina stringa
+            r1 = rand() % 10;//TO_DO ne daje rand broj jer mikrokontroler uvek ima isti seed, promeniti na ucitavanje ADC signala sa nepovezanog pina
+            for (duzina = 0; grad[r1][duzina] != '\0'; duzina++); //racunanje duzina stringa
             for(i=0; i<duzina; i++){
                 //otkriveno[i]=grad[r][i]; //da otkriveno bude odabrani grad
                 otkriveno[i]='_';//da otkriveno bude niz __ duzine odabranog grada
@@ -298,11 +380,11 @@ int main(int argc, char** argv) {
             RS232_putst("Resenje: ");
             GoToXY(40,4);
             GLCD_Printf ("Resenje: ");
-            RS232_putst(grad[r]);
+            RS232_putst(grad[r1]);
             WriteUART1(13);//novi red
             WriteUART1(13);//novi red
             GoToXY(40,5);
-            GLCD_Printf (grad[r]);
+            GLCD_Printf (grad[r1]);
             for(i=0; i<10000; i++){
                 for(j=0; j<750; j++);
             }
@@ -312,8 +394,8 @@ int main(int argc, char** argv) {
             }
             zivoti=6;
             //r=9;
-            r = rand() % 10;//TO_DO ne daje rand broj jer mikrokontroler uvek ima isti seed, promeniti na ucitavanje ADC signala sa nepovezanog pina
-            for (duzina = 0; grad[r][duzina] != '\0'; duzina++); //racunanje duzina stringa
+            r1 = rand() % 10;//TO_DO ne daje rand broj jer mikrokontroler uvek ima isti seed, promeniti na ucitavanje ADC signala sa nepovezanog pina
+            for (duzina = 0; grad[r1][duzina] != '\0'; duzina++); //racunanje duzina stringa
             for(i=0; i<duzina; i++){
                 //otkriveno[i]=grad[r][i]; //da otkriveno bude odabrani grad
                 otkriveno[i]='_';//da otkriveno bude niz __ duzine odabranog grada
