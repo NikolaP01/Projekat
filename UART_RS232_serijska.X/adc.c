@@ -4,10 +4,10 @@
 
 void ConfigureADCPins(void)
 {
-	ADPCFGbits.PCFG6=0;
-    ADPCFGbits.PCFG7=0;
-	ADPCFGbits.PCFG8=0;
-	ADPCFGbits.PCFG9=0;
+	ADPCFGbits.PCFG6=0;//PIR senzor na RB6
+    ADPCFGbits.PCFG7=0;//fotootpornik na RB7
+	ADPCFGbits.PCFG8=0;//touchscreen
+	ADPCFGbits.PCFG9=0;//touchscreen
 	
 	TRISBbits.TRISB6=1;
     TRISBbits.TRISB7=1;
@@ -116,7 +116,7 @@ bit 0 ALTS: Alternate Input Sample Mode Select bit
 
 ADCON2bits.VCFG=7;
 ADCON2bits.CSCNA=1;
-ADCON2bits.SMPI=4;
+ADCON2bits.SMPI=3;
 ADCON2bits.BUFM=0;
 ADCON2bits.ALTS=0;
 

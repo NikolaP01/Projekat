@@ -26,16 +26,11 @@ Opis programa:  vraca nazad poslati podatak sa mikrokontrolera
 
 #define DRIVE_A PORTCbits.RC13
 #define DRIVE_B PORTCbits.RC14
-#define KEY_NOT_PRESSED (-1)
 
 _FOSC(CSW_FSCM_OFF & XT_PLL4);//instruction takt je isti kao i kristal
 //_FOSC(CSW_ON_FSCM_OFF & HS3_PLL4);
 _FWDT(WDT_OFF);
 _FGS(CODE_PROT_OFF);
-
-uint64_t freq_values[8][2] = { { 5682, 2841 }, { 6378, 3189 }, { 7159, 3579 }, { 7584, 3792 },    // 8 kHz, 4 kHz, 2 kHz, 1 kHz, 
-                                       { 8513, 4257 }, { 9556, 4778 }, { 10124, 5062 }, { 11364, 5682 } };  // 500 Hz, 250 Hz, 125 Hz
-int key_pressed = KEY_NOT_PRESSED;
 
 unsigned char tempRX;
 unsigned int i, j ,n, hit, win, r, r1, r2, duzina;
@@ -238,27 +233,7 @@ int main(int argc, char** argv) {
 	ADCinit();
 	ConfigureADCPins();
 	ADCON1bits.ADON=1;
-    
-    //BUZZER
-    TRISDbits.TRISD9=0;//konfigurisemo kao izlaz za pwm 
-    PR2= 2; //freq_values[0][0];//odredjuje frekvenciju po formuli
-        OC1RS=1; //freq_values[0][1];//postavimo pwm
-        OC1R=2000;//inicijalni pwm pri paljenju samo
-        OC1CON =OC_IDLE_CON & OC_TIMER2_SRC & OC_PWM_FAULT_PIN_DISABLE& T2_PS_1_256;//konfiguracija pwma
-        T2CONbits.TON=1;//ukljucujemo timer koji koristi
         
-        
-    /*if (key_pressed != (-1))
-        {
-          PR2   = freq_values[key_pressed][0];//odredjuje frekvenciju po formuli
-          OC1RS = freq_values[key_pressed][1];//postavimo pwm
-        } else
-        {
-          PR2   = 2;
-          OC1RS = 1;
-        }
-     */ //za buzzer ukljucivanje
-    
     //r=9;
     r1 = rand() % 10;//TO_DO ne daje rand broj jer mikrokontroler uvek ima isti seed, promeniti na ucitavanje ADC signala sa nepovezanog pina
     for (duzina = 0; grad[r1][duzina] != '\0'; duzina++); //racunanje duzina stringa
@@ -274,10 +249,10 @@ int main(int argc, char** argv) {
         GLCD_ClrScr();
         RS232_putst(otkriveno);
         WriteUART1(13);//novi red
-        GoToXY(40,2);
+        GoToXY(10,2);
         GLCD_Printf (otkriveno);
         GoToXY(5,4);
-        GLCD_Printf ("Pomoc PIR-a: ");
+        GLCD_Printf ("Pomoc PIR-a: "); 
         for(i=0; i<pomoc; i++){
                 GLCD_Printf ("* ");
             }
@@ -286,15 +261,55 @@ int main(int argc, char** argv) {
         for(i=0; i<zivoti; i++){
                 GLCD_Printf ("<3");
             }
+        GLCD_Rectangle(90,5,126,17);
+        GoToXY(95,1);
+        GLCD_Printf ("RESET");
+        
         while(buf==0){//cekanje dok korisnik ne unese nesto u serijsku komunikaciju
-            WriteUART1(' ');
-            WriteUART1dec2string(sirovi0);
-            WriteUART1(' ');
-            WriteUART1dec2string(sirovi1);
-            WriteUART1(13);//enter
+            //WriteUART1(' ');
+            //WriteUART1dec2string(sirovi0);
+            //WriteUART1(' ');
+            //WriteUART1dec2string(sirovi1);
+            //WriteUART1(13);//enter
 
-            for(broj1=0;broj1<2000;broj1++)
+            for(broj1=0;broj1<1000;broj1++)
             for(broj2=0;broj2<500;broj2++);
+            
+            Touch_Panel();
+            WriteUART1dec2string(x_vrednost);
+            WriteUART1(' ');
+            WriteUART1dec2string(y_vrednost);
+            WriteUART1(13);//enter
+            
+            if(x_vrednost>2000 && y_vrednost>2000){ //reset
+                r1 = rand() % 10;//TO_DO ne daje rand broj jer mikrokontroler uvek ima isti seed, promeniti na ucitavanje ADC signala sa nepovezanog pina
+                for (duzina = 0; grad[r1][duzina] != '\0'; duzina++); //racunanje duzina stringa
+                for(i=0; i<duzina; i++){
+                    //otkriveno[i]=grad[r][i]; //da otkriveno bude odabrani grad
+                    otkriveno[i]='_';//da otkriveno bude niz __ duzine odabranog grada
+                };
+                pomoc=3;
+                zivoti=6;
+                
+                GLCD_ClrScr();
+                RS232_putst(otkriveno);
+                WriteUART1(13);//novi red
+                GoToXY(10,2);
+                GLCD_Printf (otkriveno);
+                GoToXY(5,4);
+                GLCD_Printf ("Pomoc PIR-a: "); 
+                for(i=0; i<pomoc; i++){
+                    GLCD_Printf ("* ");
+                }
+                GoToXY(5,6);
+                GLCD_Printf ("Zivoti: ");
+                for(i=0; i<zivoti; i++){
+                    GLCD_Printf ("<3");
+                }
+                GLCD_Rectangle(90,5,126,17);
+                GoToXY(95,1);
+                GLCD_Printf ("RESET");
+            }
             
             if(sirovi0 > 2000 && pomoc>0){
                 pomoc--;
@@ -313,7 +328,7 @@ int main(int argc, char** argv) {
                 GLCD_ClrScr();
                 RS232_putst(otkriveno);
                 WriteUART1(13);//novi red
-                GoToXY(40,2);
+                GoToXY(10,2);
                 GLCD_Printf (otkriveno);
                 GoToXY(5,4);
                 GLCD_Printf ("Pomoc PIR-a: ");
@@ -325,10 +340,12 @@ int main(int argc, char** argv) {
                 for(i=0; i<zivoti; i++){
                     GLCD_Printf ("<3");
                 }
+                GLCD_Rectangle(90,5,126,17);
+                GoToXY(95,1);
+                GLCD_Printf ("RESET");
             }
         };
-        //ako hocemo da otkrijemo celu rec odjednom
-        //if(tempRX==grad[r])...
+        
         hit=1;//flag za oduzimanje zivota, po defaultu treba da oduzme
         win=1;
         for(i=0; i<duzina; i++){
@@ -342,7 +359,11 @@ int main(int argc, char** argv) {
                 win=0;//ako nadje prazno mesto spusti zastavicu za pobedu
             }
         }
-        if(hit==1)zivoti--;
+        if(hit==1){
+            zivoti--;
+            //TO_DO
+            //buzzer zapisti kad se izgubi zivot
+        }
         
         if(win==1){//ako pogodi sve
             GLCD_ClrScr();
@@ -393,6 +414,7 @@ int main(int argc, char** argv) {
                 otkriveno[i]='\0';
             }
             zivoti=6;
+            pomoc=3;
             //r=9;
             r1 = rand() % 10;//TO_DO ne daje rand broj jer mikrokontroler uvek ima isti seed, promeniti na ucitavanje ADC signala sa nepovezanog pina
             for (duzina = 0; grad[r1][duzina] != '\0'; duzina++); //racunanje duzina stringa
