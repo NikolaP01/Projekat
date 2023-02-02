@@ -21,11 +21,12 @@ Opis programa:  vraca nazad poslati podatak sa mikrokontrolera
 #include "driverGLCD.h"
 #include "adc.h"
 #include <outcompare.h>
-#include "timer2.h"
+#include "Tajmeri.h"
 #include "stdint.h"
 
 #define DRIVE_A PORTCbits.RC13
 #define DRIVE_B PORTCbits.RC14
+#define TMR2_period 10000
 
 _FOSC(CSW_FSCM_OFF & XT_PLL4);//instruction takt je isti kao i kristal
 //_FOSC(CSW_ON_FSCM_OFF & HS3_PLL4);
@@ -49,12 +50,13 @@ const unsigned int AD_Ymax =3450;
 
 unsigned int sirovi0,sirovi1,sirovi2,sirovi3;
 unsigned int broj,broj1,broj2,temp0,temp1,pir,fr; 
-
+unsigned int brojac_ms,stoperica,ms,sekund;//ZA TAJMER
 char grad[10][20]={ //lista gradova
     "london", "sarajevo", "amsterdam", 
-    "milan", "hag", "nis", "kragujevac", 
-    "kraljevo", "subotica", "pariz"
+    "skurbla", "singidunum", "arandjelovo", "kragujevac", 
+    "kraljevo", "budimpesta", "pariz"
 };
+
 
 void ConfigureTSPins(void)
 {
@@ -67,6 +69,20 @@ void ConfigureTSPins(void)
 	
 	//LATCbits.LATC14=0;
 	//LATCbits.LATC13=0;
+}
+
+void Init_T2(void)
+{
+	TMR2 = 0;
+	PR2 = TMR2_period;
+	
+	T2CONbits.TCS = 0; // 0 = Internal clock (FOSC/4)
+	//IPC1bits.T2IP = 3 // T2 interrupt pririty (0-7)
+	//SRbits.IPL = 3; // CPU interrupt priority is 3(11)
+	IFS0bits.T2IF = 0; // clear interrupt flag
+	IEC0bits.T2IE = 1; // enable interrupt
+
+	T2CONbits.TON = 1; // T2 on 
 }
 
 void initUART1(void)
@@ -102,8 +118,8 @@ void __attribute__((__interrupt__)) _ADCInterrupt(void)
     sirovi2=ADCBUF2;//0
 	sirovi3=ADCBUF3;//1
 
-	pir=sirovi0;
-    fr=sirovi1;
+	fr=sirovi0;
+    pir=sirovi1;
     temp0=sirovi2;
 	temp1=sirovi3;
 
@@ -112,9 +128,18 @@ void __attribute__((__interrupt__)) _ADCInterrupt(void)
 
 void __attribute__((__interrupt__)) _T2Interrupt(void)
 {
+	/*TMR2 =0;
+     ms=1;//fleg za milisekundu ili prekid;potrebno ga je samo resetovati u funkciji
 
-   	TMR2 =0;
-    IFS0bits.T2IF = 0;
+	brojac_ms++;//brojac milisekundi
+    stoperica++;//brojac za funkciju Delay_ms
+
+    if (brojac_ms==10000)//sek
+        {
+          brojac_ms=0;
+          sekund=1;//fleg za sekundu
+		 } 
+	IFS0bits.T1IF = 0; */
 }
 
 /*********************************************************************
@@ -233,7 +258,14 @@ int main(int argc, char** argv) {
 	ADCinit();
 	ConfigureADCPins();
 	ADCON1bits.ADON=1;
-        
+    //Init_T2();
+    
+    
+    //buzzer setup
+    //TRISAbits.TRISA11=0;
+    //buzzer
+
+    
     //r=9;
     r1 = rand() % 10;//TO_DO ne daje rand broj jer mikrokontroler uvek ima isti seed, promeniti na ucitavanje ADC signala sa nepovezanog pina
     for (duzina = 0; grad[r1][duzina] != '\0'; duzina++); //racunanje duzina stringa
@@ -249,7 +281,7 @@ int main(int argc, char** argv) {
         GLCD_ClrScr();
         RS232_putst(otkriveno);
         WriteUART1(13);//novi red
-        GoToXY(10,2);
+        GoToXY(50,2);
         GLCD_Printf (otkriveno);
         GoToXY(5,4);
         GLCD_Printf ("Pomoc PIR-a: "); 
@@ -261,28 +293,35 @@ int main(int argc, char** argv) {
         for(i=0; i<zivoti; i++){
                 GLCD_Printf ("<3");
             }
-        GLCD_Rectangle(90,5,126,17);
-        GoToXY(95,1);
+        GLCD_Rectangle(5,5,41,17);
+        GoToXY(10,1);
         GLCD_Printf ("RESET");
         
         while(buf==0){//cekanje dok korisnik ne unese nesto u serijsku komunikaciju
-            //WriteUART1(' ');
-            //WriteUART1dec2string(sirovi0);
-            //WriteUART1(' ');
-            //WriteUART1dec2string(sirovi1);
-            //WriteUART1(13);//enter
+            WriteUART1(' ');
+            WriteUART1dec2string(sirovi0);
+            WriteUART1(' ');
+            WriteUART1dec2string(sirovi1);
+            WriteUART1(13);//enter
 
             for(broj1=0;broj1<1000;broj1++)
             for(broj2=0;broj2<500;broj2++);
             
             Touch_Panel();
-            WriteUART1dec2string(x_vrednost);
-            WriteUART1(' ');
-            WriteUART1dec2string(y_vrednost);
-            WriteUART1(13);//enter
+            //WriteUART1dec2string(x_vrednost);
+            //WriteUART1(' ');
+            //WriteUART1dec2string(y_vrednost);
+            //WriteUART1(13);//enter
             
-            if(x_vrednost>2000 && y_vrednost>2000){ //reset
+            if(x_vrednost<500 && y_vrednost>1800){ //reset
+                for(broj1=0;broj1<300;broj1++)
+                for(broj2=0;broj2<100;broj2++);//delay pre provere
+                Touch_Panel();    //dodatan provera X ose, desava se da ne prepozna promenu na njoj
+                if(x_vrednost<500){
                 r1 = rand() % 10;//TO_DO ne daje rand broj jer mikrokontroler uvek ima isti seed, promeniti na ucitavanje ADC signala sa nepovezanog pina
+                for(i=0; i<20; i++){
+                    otkriveno[i]='\0';
+                }
                 for (duzina = 0; grad[r1][duzina] != '\0'; duzina++); //racunanje duzina stringa
                 for(i=0; i<duzina; i++){
                     //otkriveno[i]=grad[r][i]; //da otkriveno bude odabrani grad
@@ -294,7 +333,7 @@ int main(int argc, char** argv) {
                 GLCD_ClrScr();
                 RS232_putst(otkriveno);
                 WriteUART1(13);//novi red
-                GoToXY(10,2);
+                GoToXY(50,2);
                 GLCD_Printf (otkriveno);
                 GoToXY(5,4);
                 GLCD_Printf ("Pomoc PIR-a: "); 
@@ -306,12 +345,13 @@ int main(int argc, char** argv) {
                 for(i=0; i<zivoti; i++){
                     GLCD_Printf ("<3");
                 }
-                GLCD_Rectangle(90,5,126,17);
-                GoToXY(95,1);
+                GLCD_Rectangle(5,5,41,17);
+                GoToXY(10,1);
                 GLCD_Printf ("RESET");
+                }
             }
             
-            if(sirovi0 > 2000 && pomoc>0){
+            if(pir > 2500 && pomoc>0){
                 pomoc--;
                 j=0;
                 for(i=0; i<duzina; i++){//ako nema praznog mesta igrac je pobedio
@@ -328,7 +368,7 @@ int main(int argc, char** argv) {
                 GLCD_ClrScr();
                 RS232_putst(otkriveno);
                 WriteUART1(13);//novi red
-                GoToXY(10,2);
+                GoToXY(50,2);
                 GLCD_Printf (otkriveno);
                 GoToXY(5,4);
                 GLCD_Printf ("Pomoc PIR-a: ");
@@ -340,9 +380,13 @@ int main(int argc, char** argv) {
                 for(i=0; i<zivoti; i++){
                     GLCD_Printf ("<3");
                 }
-                GLCD_Rectangle(90,5,126,17);
-                GoToXY(95,1);
+                GLCD_Rectangle(5,5,41,17);
+                GoToXY(10,1);
                 GLCD_Printf ("RESET");
+                
+                for(broj1=0;broj1<1000;broj1++)
+                for(broj2=0;broj2<700;broj2++);//delay da ne otkrije 2-3 slova nego jedno
+                pir=0;
             }
         };
         
@@ -361,8 +405,19 @@ int main(int argc, char** argv) {
         }
         if(hit==1){
             zivoti--;
+            
+            
             //TO_DO
-            //buzzer zapisti kad se izgubi zivot
+            //LATA=0xffff;
+            //for(broj1=0;broj1<1000;broj1++)
+            //for(broj2=0;broj2<1000;broj2++);
+            //LATA=0x0000;
+           
+            /*LATAbits.LATA11=1;
+            Delay_ms (10);
+            LATAbits.LATA11=0;
+            Delay_ms (10);*/
+            
         }
         
         if(win==1){//ako pogodi sve

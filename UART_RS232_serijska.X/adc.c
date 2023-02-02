@@ -4,8 +4,8 @@
 
 void ConfigureADCPins(void)
 {
-	ADPCFGbits.PCFG6=0;//PIR senzor na RB6
-    ADPCFGbits.PCFG7=0;//fotootpornik na RB7
+	ADPCFGbits.PCFG6=0;//fotoR na RB6
+    ADPCFGbits.PCFG7=0;//PIR na RB7
 	ADPCFGbits.PCFG8=0;//touchscreen
 	ADPCFGbits.PCFG9=0;//touchscreen
 	
