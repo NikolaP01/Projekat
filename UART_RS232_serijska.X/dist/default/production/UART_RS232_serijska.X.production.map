@@ -1,4 +1,4 @@
-Microchip Technology Inc, vÑÅ
+Microchip Technology Inc, vÑœ
 
 Tool Name:
   c:\program files (x86)\microchip\xc16\v1.21\bin\bin\..\bin/elf-ld.exe
@@ -105,11 +105,11 @@ section                    address   length (PC units)   length (bytes) (dec)
 -------                    -------   -----------------   --------------------
 .text                        0x100               0x32a           0x4bf  (1215)
 .const                       0x42a               0x9fc           0xefa  (3834)
-.text                        0xe26              0x1142          0x19e3  (6627)
-.dinit                      0x1f68                0xa6            0xf9  (249)
-.text                       0x200e                0x88            0xcc  (204)
+.text                        0xe26              0x126a          0x1b9f  (7071)
+.dinit                      0x2090                0xa6            0xf9  (249)
+.text                       0x2136                0x88            0xcc  (204)
 
-                     Total program memory used (bytes):         0x2f61  (12129) 24%
+                     Total program memory used (bytes):         0x311d  (12573) 25%
 
 
 Data Memory  [Origin = 0x800, Length = 0x800]
@@ -117,11 +117,11 @@ Data Memory  [Origin = 0x800, Length = 0x800]
 section                    address      alignment gaps    total length  (dec)
 -------                    -------      --------------    -------------------
 .ndata                       0x800                   0            0xcc  (204)
-.nbss                        0x8cc                   0            0x50  (80)
-.ndata                       0x91c                   0             0x4  (4)
-.bss                         0x920                   0             0x6  (6)
+.nbss                        0x8cc                   0            0x52  (82)
+.ndata                       0x91e                   0             0x4  (4)
+.bss                         0x922                   0             0x6  (6)
 
-                        Total data memory used (bytes):          0x126  (294) 14%
+                        Total data memory used (bytes):          0x128  (296) 14%
 
 
 Dynamic Memory Usage
@@ -129,9 +129,9 @@ Dynamic Memory Usage
 region                     address                      maximum length  (dec)
 ------                     -------                      ---------------------
 heap                             0                                   0  (0)
-stack                        0x926                               0x6da  (1754)
+stack                        0x928                               0x6d8  (1752)
 
-                        Maximum dynamic memory (bytes):          0x6da  (1754)
+                        Maximum dynamic memory (bytes):          0x6d8  (1752)
 
 
 External Symbols in Data Memory (by address):
@@ -142,13 +142,13 @@ External Symbols in Data Memory (by address):
                     0x08cc                  _tempRX
                     0x08ce                  _i
                     0x08d0                  _j
-                    0x08d2                  _n
-                    0x08d4                  _hit
-                    0x08d6                  _win
-                    0x08d8                  _r
-                    0x08da                  _r1
-                    0x08dc                  _r2
-                    0x08de                  _duzina
+                    0x08d2                  _hit
+                    0x08d4                  _win
+                    0x08d6                  _r
+                    0x08d8                  _r1
+                    0x08da                  _r2
+                    0x08dc                  _duzina
+                    0x08de                  _pirflag
                     0x08e0                  _buf
                     0x08e2                  _otkriveno
                     0x08f6                  _X
@@ -159,57 +159,59 @@ External Symbols in Data Memory (by address):
                     0x0900                  _sirovi1
                     0x0902                  _sirovi2
                     0x0904                  _sirovi3
-                    0x0906                  _broj
-                    0x0908                  _broj1
-                    0x090a                  _broj2
-                    0x090c                  _temp0
-                    0x090e                  _temp1
-                    0x0910                  _pir
-                    0x0912                  _fr
-                    0x0914                  _brojac_ms
-                    0x0916                  _stoperica
-                    0x0918                  _ms
-                    0x091a                  _sekund
-                    0x091c                  _kursorX
-                    0x091d                  _kursorY
-                    0x091e                  _strana
+                    0x0906                  _broj1
+                    0x0908                  _broj2
+                    0x090a                  _temp0
+                    0x090c                  _temp1
+                    0x090e                  _pir
+                    0x0910                  _fr
+                    0x0912                  _ton
+                    0x0914                  _duz
+                    0x0916                  _brojac_ms
+                    0x0918                  _stoperica
+                    0x091a                  _ms
+                    0x091c                  _sekund
+                    0x091e                  _kursorX
+                    0x091f                  _kursorY
+                    0x0920                  _strana
 
 External Symbols in Data Memory (by name):
 
                     0x08f6                  _X
                     0x08f8                  _Y
-                    0x0906                  _broj
-                    0x0908                  _broj1
-                    0x090a                  _broj2
-                    0x0914                  _brojac_ms
+                    0x0906                  _broj1
+                    0x0908                  _broj2
+                    0x0916                  _brojac_ms
                     0x08e0                  _buf
-                    0x08de                  _duzina
-                    0x0912                  _fr
+                    0x0914                  _duz
+                    0x08dc                  _duzina
+                    0x0910                  _fr
                     0x0804                  _grad
-                    0x08d4                  _hit
+                    0x08d2                  _hit
                     0x08ce                  _i
                     0x08d0                  _j
-                    0x091c                  _kursorX
-                    0x091d                  _kursorY
-                    0x0918                  _ms
-                    0x08d2                  _n
+                    0x091e                  _kursorX
+                    0x091f                  _kursorY
+                    0x091a                  _ms
                     0x08e2                  _otkriveno
-                    0x0910                  _pir
+                    0x090e                  _pir
+                    0x08de                  _pirflag
                     0x0802                  _pomoc
-                    0x08d8                  _r
-                    0x08da                  _r1
-                    0x08dc                  _r2
-                    0x091a                  _sekund
+                    0x08d6                  _r
+                    0x08d8                  _r1
+                    0x08da                  _r2
+                    0x091c                  _sekund
                     0x08fe                  _sirovi0
                     0x0900                  _sirovi1
                     0x0902                  _sirovi2
                     0x0904                  _sirovi3
-                    0x0916                  _stoperica
-                    0x091e                  _strana
-                    0x090c                  _temp0
-                    0x090e                  _temp1
+                    0x0918                  _stoperica
+                    0x0920                  _strana
+                    0x090a                  _temp0
+                    0x090c                  _temp1
                     0x08cc                  _tempRX
-                    0x08d6                  _win
+                    0x0912                  _ton
+                    0x08d4                  _win
                     0x08fa                  _x_vrednost
                     0x08fc                  _y_vrednost
                     0x0800                  _zivoti
@@ -218,8 +220,8 @@ External Symbols in Program Memory (by address):
 
                   0x000100                  __resetPRI
                   0x000126                  __psv_init
-                  0x000136                  __data_init_standard
                   0x000136                  __data_init
+                  0x000136                  __data_init_standard
                   0x000194                  __DefaultInterrupt
                   0x000198                  ___divsf3
                   0x00021c                  ___fixunssfsi
@@ -236,8 +238,8 @@ External Symbols in Program Memory (by address):
                   0x00038a                  ___floatundisf
                   0x0003e8                  _srand
                   0x0003f6                  _rand
-                  0x00041e                  ___mulp32eds3
                   0x00041e                  ___mulsi3
+                  0x00041e                  ___mulp32eds3
                   0x00041e                  ___mulp32peds3
                   0x00042a                  _fontBIG
                   0x0009da                  _font
@@ -245,111 +247,110 @@ External Symbols in Program Memory (by address):
                   0x000ddc                  _AD_Xmax
                   0x000dde                  _AD_Ymin
                   0x000de0                  _AD_Ymax
-                  0x000e26                  _SetRST
-                  0x000e46                  _SetE
-                  0x000e64                  _SetRW
-                  0x000e82                  _SetRS
-                  0x000ea0                  _SetCS2
-                  0x000ec0                  _SetCS1
-                  0x000ede                  _ConfigureLCDPins
-                  0x000f0c                  _ConfigureLcdData
-                  0x000f40                  _SetLcdData
-                  0x000f7e                  _ReadLcdData
-                  0x000fa4                  _strobe_data
-                  0x000fb2                  _LcdInstructionWrite
-                  0x000fc8                  _LcdDelay
-                  0x000fe0                  _LcdWaitBusy
-                  0x00100e                  _GoToX
-                  0x001054                  _GoToY
-                  0x00106e                  _GoToXY
-                  0x001080                  _LcdSelectStartline
-                  0x001090                  _LcdSelectSide
-                  0x0010d0                  _LcdDataRead
-                  0x001102                  _GLCD_LcdInit
-                  0x001164                  _LcdDataWrite
-                  0x00117a                  _GLCD_ClrScr
-                  0x0011c6                  _GLCD_FillScr
-                  0x001212                  _GLCD_DisplayPicture
-                  0x001286                  _LcdSetDot
-                  0x0012ca                  _LcdResDot
-                  0x001310                  _GLCD_Circle
-                  0x001434                  _GLCD_Rectangle
-                  0x0014a6                  _Glcd_PutChar
-                  0x001536                  _Glcd_PutCharBig
-                  0x00162c                  _GLCD_Printf
-                  0x001648                  _GLCD_ShowGreed
-                  0x0016d0                  _GLCD_Clr_Rectangle
-                  0x001742                  _ConfigureTSPins
-                  0x00174c                  _Init_T2
-                  0x001762                  _initUART1
-                  0x00177c                  __U1RXInterrupt
-                  0x0017b8                  __ADCInterrupt
-                  0x0017ec                  __T2Interrupt
-                  0x0017fe                  _WriteUART1
-                  0x001826                  _RS232_putst
-                  0x001844                  _WriteUART1dec2string
-                  0x0018c6                  _Delay
-                  0x0018de                  _Touch_Panel
-                  0x001944                  _Write_GLCD
-                  0x0019c2                  _main
-                  0x00200e                  _ConfigureADCPins
-                  0x002024                  _ADCinit
+                  0x000e26                  _ConfigureTSPins
+                  0x000e30                  _initUART1
+                  0x000e4a                  __U1RXInterrupt
+                  0x000e7e                  __ADCInterrupt
+                  0x000eaa                  _WriteUART1
+                  0x000ed2                  _RS232_putst
+                  0x000ef0                  _WriteUART1dec2string
+                  0x000f72                  _Delay
+                  0x000f8a                  _Touch_Panel
+                  0x000ff0                  _Write_GLCD
+                  0x00106e                  _buzzer
+                  0x0010da                  _buzzer_go
+                  0x001148                  _buzzer_win
+                  0x0011b8                  _main
+                  0x001774                  _SetRST
+                  0x001794                  _SetE
+                  0x0017b2                  _SetRW
+                  0x0017d0                  _SetRS
+                  0x0017ee                  _SetCS2
+                  0x00180e                  _SetCS1
+                  0x00182c                  _ConfigureLCDPins
+                  0x00185a                  _ConfigureLcdData
+                  0x00188e                  _SetLcdData
+                  0x0018cc                  _ReadLcdData
+                  0x0018f2                  _strobe_data
+                  0x001900                  _LcdInstructionWrite
+                  0x001916                  _LcdDelay
+                  0x00192e                  _LcdWaitBusy
+                  0x00195c                  _GoToX
+                  0x0019a2                  _GoToY
+                  0x0019bc                  _GoToXY
+                  0x0019ce                  _LcdSelectStartline
+                  0x0019de                  _LcdSelectSide
+                  0x001a1e                  _LcdDataRead
+                  0x001a50                  _GLCD_LcdInit
+                  0x001ab2                  _LcdDataWrite
+                  0x001ac8                  _GLCD_ClrScr
+                  0x001b14                  _GLCD_FillScr
+                  0x001b60                  _GLCD_DisplayPicture
+                  0x001bd4                  _LcdSetDot
+                  0x001c18                  _LcdResDot
+                  0x001c5e                  _GLCD_Circle
+                  0x001d82                  _GLCD_Rectangle
+                  0x001df4                  _Glcd_PutChar
+                  0x001e84                  _Glcd_PutCharBig
+                  0x001f7a                  _GLCD_Printf
+                  0x001f96                  _GLCD_ShowGreed
+                  0x00201e                  _GLCD_Clr_Rectangle
+                  0x002136                  _ConfigureADCPins
+                  0x00214c                  _ADCinit
                   0xf8000a                  __FGS.sec
 
 External Symbols in Program Memory (by name):
 
-                  0x002024                  _ADCinit
+                  0x00214c                  _ADCinit
                   0x000ddc                  _AD_Xmax
                   0x000dda                  _AD_Xmin
                   0x000de0                  _AD_Ymax
                   0x000dde                  _AD_Ymin
-                  0x00200e                  _ConfigureADCPins
-                  0x000ede                  _ConfigureLCDPins
-                  0x000f0c                  _ConfigureLcdData
-                  0x001742                  _ConfigureTSPins
-                  0x0018c6                  _Delay
-                  0x001310                  _GLCD_Circle
-                  0x00117a                  _GLCD_ClrScr
-                  0x0016d0                  _GLCD_Clr_Rectangle
-                  0x001212                  _GLCD_DisplayPicture
-                  0x0011c6                  _GLCD_FillScr
-                  0x001102                  _GLCD_LcdInit
-                  0x00162c                  _GLCD_Printf
-                  0x001434                  _GLCD_Rectangle
-                  0x001648                  _GLCD_ShowGreed
-                  0x0014a6                  _Glcd_PutChar
-                  0x001536                  _Glcd_PutCharBig
-                  0x00100e                  _GoToX
-                  0x00106e                  _GoToXY
-                  0x001054                  _GoToY
-                  0x00174c                  _Init_T2
-                  0x0010d0                  _LcdDataRead
-                  0x001164                  _LcdDataWrite
-                  0x000fc8                  _LcdDelay
-                  0x000fb2                  _LcdInstructionWrite
-                  0x0012ca                  _LcdResDot
-                  0x001090                  _LcdSelectSide
-                  0x001080                  _LcdSelectStartline
-                  0x001286                  _LcdSetDot
-                  0x000fe0                  _LcdWaitBusy
-                  0x001826                  _RS232_putst
-                  0x000f7e                  _ReadLcdData
-                  0x000ec0                  _SetCS1
-                  0x000ea0                  _SetCS2
-                  0x000e46                  _SetE
-                  0x000f40                  _SetLcdData
-                  0x000e82                  _SetRS
-                  0x000e26                  _SetRST
-                  0x000e64                  _SetRW
-                  0x0018de                  _Touch_Panel
-                  0x0017fe                  _WriteUART1
-                  0x001844                  _WriteUART1dec2string
-                  0x001944                  _Write_GLCD
-                  0x0017b8                  __ADCInterrupt
+                  0x002136                  _ConfigureADCPins
+                  0x00182c                  _ConfigureLCDPins
+                  0x00185a                  _ConfigureLcdData
+                  0x000e26                  _ConfigureTSPins
+                  0x000f72                  _Delay
+                  0x001c5e                  _GLCD_Circle
+                  0x001ac8                  _GLCD_ClrScr
+                  0x00201e                  _GLCD_Clr_Rectangle
+                  0x001b60                  _GLCD_DisplayPicture
+                  0x001b14                  _GLCD_FillScr
+                  0x001a50                  _GLCD_LcdInit
+                  0x001f7a                  _GLCD_Printf
+                  0x001d82                  _GLCD_Rectangle
+                  0x001f96                  _GLCD_ShowGreed
+                  0x001df4                  _Glcd_PutChar
+                  0x001e84                  _Glcd_PutCharBig
+                  0x00195c                  _GoToX
+                  0x0019bc                  _GoToXY
+                  0x0019a2                  _GoToY
+                  0x001a1e                  _LcdDataRead
+                  0x001ab2                  _LcdDataWrite
+                  0x001916                  _LcdDelay
+                  0x001900                  _LcdInstructionWrite
+                  0x001c18                  _LcdResDot
+                  0x0019de                  _LcdSelectSide
+                  0x0019ce                  _LcdSelectStartline
+                  0x001bd4                  _LcdSetDot
+                  0x00192e                  _LcdWaitBusy
+                  0x000ed2                  _RS232_putst
+                  0x0018cc                  _ReadLcdData
+                  0x00180e                  _SetCS1
+                  0x0017ee                  _SetCS2
+                  0x001794                  _SetE
+                  0x00188e                  _SetLcdData
+                  0x0017d0                  _SetRS
+                  0x001774                  _SetRST
+                  0x0017b2                  _SetRW
+                  0x000f8a                  _Touch_Panel
+                  0x000eaa                  _WriteUART1
+                  0x000ef0                  _WriteUART1dec2string
+                  0x000ff0                  _Write_GLCD
+                  0x000e7e                  __ADCInterrupt
                   0x000194                  __DefaultInterrupt
                   0xf8000a                  __FGS.sec
-                  0x0017ec                  __T2Interrupt
-                  0x00177c                  __U1RXInterrupt
+                  0x000e4a                  __U1RXInterrupt
                   0x000198                  ___divsf3
                   0x00021c                  ___fixunssfsi
                   0x00036a                  ___floatdisf
@@ -370,13 +371,16 @@ External Symbols in Program Memory (by name):
                   0x0002d2                  __funpack2
                   0x000126                  __psv_init
                   0x000100                  __resetPRI
+                  0x00106e                  _buzzer
+                  0x0010da                  _buzzer_go
+                  0x001148                  _buzzer_win
                   0x0009da                  _font
                   0x00042a                  _fontBIG
-                  0x001762                  _initUART1
-                  0x0019c2                  _main
+                  0x000e30                  _initUART1
+                  0x0011b8                  _main
                   0x0003f6                  _rand
                   0x0003e8                  _srand
-                  0x000fa4                  _strobe_data
+                  0x0018f2                  _strobe_data
 
 Memory Configuration
 
@@ -547,36 +551,36 @@ userdata
 .comment
  *(.comment)
 
-.debug_info       0x000000       0x2ef3
+.debug_info       0x000000       0x2eba
  *(.debug_info)
- .debug_info      0x000000       0x12cd build/default/production/RS232main.o
- .debug_info      0x0012cd        0xcb7 build/default/production/adc.o
- .debug_info      0x001f84        0xf6f build/default/production/driverGLCD.o
+ .debug_info      0x000000       0x1294 build/default/production/RS232main.o
+ .debug_info      0x001294        0xcb7 build/default/production/adc.o
+ .debug_info      0x001f4b        0xf6f build/default/production/driverGLCD.o
  *(.gnu.linkonce.wi.*)
 
-.debug_abbrev     0x000000        0x3ae
+.debug_abbrev     0x000000        0x3e3
  *(.debug_abbrev)
- .debug_abbrev    0x000000        0x17d build/default/production/RS232main.o
- .debug_abbrev    0x00017d         0xb8 build/default/production/adc.o
- .debug_abbrev    0x000235        0x179 build/default/production/driverGLCD.o
+ .debug_abbrev    0x000000        0x1b2 build/default/production/RS232main.o
+ .debug_abbrev    0x0001b2         0xb8 build/default/production/adc.o
+ .debug_abbrev    0x00026a        0x179 build/default/production/driverGLCD.o
 
-.debug_line       0x000000       0x1836
+.debug_line       0x000000       0x18be
  *(.debug_line)
- .debug_line      0x000000        0x991 build/default/production/RS232main.o
- .debug_line      0x000991        0x19c build/default/production/adc.o
- .debug_line      0x000b2d        0xd09 build/default/production/driverGLCD.o
+ .debug_line      0x000000        0xa19 build/default/production/RS232main.o
+ .debug_line      0x000a19        0x19c build/default/production/adc.o
+ .debug_line      0x000bb5        0xd09 build/default/production/driverGLCD.o
 
-.debug_frame      0x000000        0x34c
+.debug_frame      0x000000        0x35c
  *(.debug_frame)
- .debug_frame     0x000000         0xe4 build/default/production/RS232main.o
- .debug_frame     0x0000e4         0x34 build/default/production/adc.o
- .debug_frame     0x000118        0x234 build/default/production/driverGLCD.o
+ .debug_frame     0x000000         0xf4 build/default/production/RS232main.o
+ .debug_frame     0x0000f4         0x34 build/default/production/adc.o
+ .debug_frame     0x000128        0x234 build/default/production/driverGLCD.o
 
-.debug_str        0x000000        0x13b
+.debug_str        0x000000        0x144
  *(.debug_str)
- .debug_str       0x000000         0x79 build/default/production/RS232main.o
- .debug_str       0x000079         0x52 build/default/production/adc.o
- .debug_str       0x0000cb         0x70 build/default/production/driverGLCD.o
+ .debug_str       0x000000         0x82 build/default/production/RS232main.o
+ .debug_str       0x000082         0x52 build/default/production/adc.o
+ .debug_str       0x0000d4         0x70 build/default/production/driverGLCD.o
 
 .debug_loc
  *(.debug_loc)
@@ -585,14 +589,14 @@ userdata
  *(.debug_macinfo)
 
 .debug_pubnames
-                  0x000000        0x50f
+                  0x000000        0x527
  *(.debug_pubnames)
  .debug_pubnames
-                  0x000000        0x275 build/default/production/RS232main.o
+                  0x000000        0x28d build/default/production/RS232main.o
  .debug_pubnames
-                  0x000275         0x33 build/default/production/adc.o
+                  0x00028d         0x33 build/default/production/adc.o
  .debug_pubnames
-                  0x0002a8        0x267 build/default/production/driverGLCD.o
+                  0x0002c0        0x267 build/default/production/driverGLCD.o
 
 .debug_ranges
  *(.debug_ranges)
@@ -621,12 +625,12 @@ userdata
                   0x00001a          0x4 LONG 0x194 DEFINED (__T1Interrupt)?ABSOLUTE (__T1Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00001c          0x4 LONG 0x194 DEFINED (__IC2Interrupt)?ABSOLUTE (__IC2Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00001e          0x4 LONG 0x194 DEFINED (__OC2Interrupt)?ABSOLUTE (__OC2Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000020          0x4 LONG 0x17ec DEFINED (__T2Interrupt)?ABSOLUTE (__T2Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000020          0x4 LONG 0x194 DEFINED (__T2Interrupt)?ABSOLUTE (__T2Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000022          0x4 LONG 0x194 DEFINED (__T3Interrupt)?ABSOLUTE (__T3Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000024          0x4 LONG 0x194 DEFINED (__SPI1Interrupt)?ABSOLUTE (__SPI1Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000026          0x4 LONG 0x177c DEFINED (__U1RXInterrupt)?ABSOLUTE (__U1RXInterrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000026          0x4 LONG 0xe4a DEFINED (__U1RXInterrupt)?ABSOLUTE (__U1RXInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000028          0x4 LONG 0x194 DEFINED (__U1TXInterrupt)?ABSOLUTE (__U1TXInterrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x00002a          0x4 LONG 0x17b8 DEFINED (__ADCInterrupt)?ABSOLUTE (__ADCInterrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x00002a          0x4 LONG 0xe7e DEFINED (__ADCInterrupt)?ABSOLUTE (__ADCInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00002c          0x4 LONG 0x194 DEFINED (__NVMInterrupt)?ABSOLUTE (__NVMInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00002e          0x4 LONG 0x194 DEFINED (__SI2CInterrupt)?ABSOLUTE (__SI2CInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000030          0x4 LONG 0x194 DEFINED (__MI2CInterrupt)?ABSOLUTE (__MI2CInterrupt):ABSOLUTE (__DefaultInterrupt)
@@ -685,12 +689,12 @@ userdata
                   0x00009a          0x4 LONG 0x194 DEFINED (__AltT1Interrupt)?ABSOLUTE (__AltT1Interrupt):DEFINED (__T1Interrupt)?ABSOLUTE (__T1Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00009c          0x4 LONG 0x194 DEFINED (__AltIC2Interrupt)?ABSOLUTE (__AltIC2Interrupt):DEFINED (__IC2Interrupt)?ABSOLUTE (__IC2Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00009e          0x4 LONG 0x194 DEFINED (__AltOC2Interrupt)?ABSOLUTE (__AltOC2Interrupt):DEFINED (__OC2Interrupt)?ABSOLUTE (__OC2Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x0000a0          0x4 LONG 0x17ec DEFINED (__AltT2Interrupt)?ABSOLUTE (__AltT2Interrupt):DEFINED (__T2Interrupt)?ABSOLUTE (__T2Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x0000a0          0x4 LONG 0x194 DEFINED (__AltT2Interrupt)?ABSOLUTE (__AltT2Interrupt):DEFINED (__T2Interrupt)?ABSOLUTE (__T2Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x0000a2          0x4 LONG 0x194 DEFINED (__AltT3Interrupt)?ABSOLUTE (__AltT3Interrupt):DEFINED (__T3Interrupt)?ABSOLUTE (__T3Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x0000a4          0x4 LONG 0x194 DEFINED (__AltSPI1Interrupt)?ABSOLUTE (__AltSPI1Interrupt):DEFINED (__SPI1Interrupt)?ABSOLUTE (__SPI1Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x0000a6          0x4 LONG 0x177c DEFINED (__AltU1RXInterrupt)?ABSOLUTE (__AltU1RXInterrupt):DEFINED (__U1RXInterrupt)?ABSOLUTE (__U1RXInterrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x0000a6          0x4 LONG 0xe4a DEFINED (__AltU1RXInterrupt)?ABSOLUTE (__AltU1RXInterrupt):DEFINED (__U1RXInterrupt)?ABSOLUTE (__U1RXInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x0000a8          0x4 LONG 0x194 DEFINED (__AltU1TXInterrupt)?ABSOLUTE (__AltU1TXInterrupt):DEFINED (__U1TXInterrupt)?ABSOLUTE (__U1TXInterrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x0000aa          0x4 LONG 0x17b8 DEFINED (__AltADCInterrupt)?ABSOLUTE (__AltADCInterrupt):DEFINED (__ADCInterrupt)?ABSOLUTE (__ADCInterrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x0000aa          0x4 LONG 0xe7e DEFINED (__AltADCInterrupt)?ABSOLUTE (__AltADCInterrupt):DEFINED (__ADCInterrupt)?ABSOLUTE (__ADCInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x0000ac          0x4 LONG 0x194 DEFINED (__AltNVMInterrupt)?ABSOLUTE (__AltNVMInterrupt):DEFINED (__NVMInterrupt)?ABSOLUTE (__NVMInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x0000ae          0x4 LONG 0x194 DEFINED (__AltSI2CInterrupt)?ABSOLUTE (__AltSI2CInterrupt):DEFINED (__SI2CInterrupt)?ABSOLUTE (__SI2CInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x0000b0          0x4 LONG 0x194 DEFINED (__AltMI2CInterrupt)?ABSOLUTE (__AltMI2CInterrupt):DEFINED (__MI2CInterrupt)?ABSOLUTE (__MI2CInterrupt):ABSOLUTE (__DefaultInterrupt)
@@ -1438,52 +1442,52 @@ LOAD default_isr
 LOAD data_init
 
 .debug_pubtypes
-                  0x000048        0x2c5
+                  0x000048        0x2e2
  .debug_pubtypes
-                  0x000048        0x127 build/default/production/RS232main.o
+                  0x000048        0x144 build/default/production/RS232main.o
  .debug_pubtypes
-                  0x00016f        0x10e build/default/production/adc.o
+                  0x00018c        0x10e build/default/production/adc.o
  .debug_pubtypes
-                  0x00027d         0x90 build/default/production/driverGLCD.o
+                  0x00029a         0x90 build/default/production/driverGLCD.o
 
 __c30_signature
-                  0x00030e         0x6c
+                  0x00032a         0x6c
  __c30_signature
-                  0x00030e          0x6 build/default/production/RS232main.o
+                  0x00032a          0x6 build/default/production/RS232main.o
  __c30_signature
-                  0x000314          0x6 build/default/production/adc.o
+                  0x000330          0x6 build/default/production/adc.o
  __c30_signature
-                  0x00031a          0x6 build/default/production/driverGLCD.o
+                  0x000336          0x6 build/default/production/driverGLCD.o
  __c30_signature
-                  0x000320          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libpic30-elf.a(crt0_standard.o)
+                  0x00033c          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libpic30-elf.a(crt0_standard.o)
  __c30_signature
-                  0x000326          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libpic30-elf.a(data_init_standard.o)
+                  0x000342          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libpic30-elf.a(data_init_standard.o)
  __c30_signature
-                  0x00032c          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libm-elf.a(divsf3.eo)
+                  0x000348          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libm-elf.a(divsf3.eo)
  __c30_signature
-                  0x000332          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libm-elf.a(fixunssfsi.eo)
+                  0x00034e          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libm-elf.a(fixunssfsi.eo)
  __c30_signature
-                  0x000338          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libm-elf.a(floatsisf.eo)
+                  0x000354          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libm-elf.a(floatsisf.eo)
  __c30_signature
-                  0x00033e          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libm-elf.a(floatunsisf.eo)
+                  0x00035a          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libm-elf.a(floatunsisf.eo)
  __c30_signature
-                  0x000344          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libm-elf.a(fpack.eo)
+                  0x000360          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libm-elf.a(fpack.eo)
  __c30_signature
-                  0x00034a          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libm-elf.a(funpack.eo)
+                  0x000366          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libm-elf.a(funpack.eo)
  __c30_signature
-                  0x000350          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libm-elf.a(funpack2.eo)
+                  0x00036c          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libm-elf.a(funpack2.eo)
  __c30_signature
-                  0x000356          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libm-elf.a(futil.eo)
+                  0x000372          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libm-elf.a(futil.eo)
  __c30_signature
-                  0x00035c          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libm-elf.a(mulsf3.eo)
+                  0x000378          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libm-elf.a(mulsf3.eo)
  __c30_signature
-                  0x000362          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libm-elf.a(floatdisf.eo)
+                  0x00037e          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libm-elf.a(floatdisf.eo)
  __c30_signature
-                  0x000368          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libm-elf.a(floatundisf.eo)
+                  0x000384          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libm-elf.a(floatundisf.eo)
  __c30_signature
-                  0x00036e          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libc-elf.a(rand.eo)
+                  0x00038a          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libc-elf.a(rand.eo)
  __c30_signature
-                  0x000374          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libm-elf.a(mulsi3.eo)
+                  0x000390          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libm-elf.a(mulsi3.eo)
 
 .ndata              0x0800         0xcc
  .ndata             0x0800         0xcc build/default/production/RS232main.o
@@ -1491,18 +1495,18 @@ __c30_signature
                     0x0802                  _pomoc
                     0x0804                  _grad
 
-.nbss               0x08cc         0x50
- .nbss              0x08cc         0x50 build/default/production/RS232main.o
+.nbss               0x08cc         0x52
+ .nbss              0x08cc         0x52 build/default/production/RS232main.o
                     0x08cc                  _tempRX
                     0x08ce                  _i
                     0x08d0                  _j
-                    0x08d2                  _n
-                    0x08d4                  _hit
-                    0x08d6                  _win
-                    0x08d8                  _r
-                    0x08da                  _r1
-                    0x08dc                  _r2
-                    0x08de                  _duzina
+                    0x08d2                  _hit
+                    0x08d4                  _win
+                    0x08d6                  _r
+                    0x08d8                  _r1
+                    0x08da                  _r2
+                    0x08dc                  _duzina
+                    0x08de                  _pirflag
                     0x08e0                  _buf
                     0x08e2                  _otkriveno
                     0x08f6                  _X
@@ -1513,26 +1517,27 @@ __c30_signature
                     0x0900                  _sirovi1
                     0x0902                  _sirovi2
                     0x0904                  _sirovi3
-                    0x0906                  _broj
-                    0x0908                  _broj1
-                    0x090a                  _broj2
-                    0x090c                  _temp0
-                    0x090e                  _temp1
-                    0x0910                  _pir
-                    0x0912                  _fr
-                    0x0914                  _brojac_ms
-                    0x0916                  _stoperica
-                    0x0918                  _ms
-                    0x091a                  _sekund
+                    0x0906                  _broj1
+                    0x0908                  _broj2
+                    0x090a                  _temp0
+                    0x090c                  _temp1
+                    0x090e                  _pir
+                    0x0910                  _fr
+                    0x0912                  _ton
+                    0x0914                  _duz
+                    0x0916                  _brojac_ms
+                    0x0918                  _stoperica
+                    0x091a                  _ms
+                    0x091c                  _sekund
 
-.ndata              0x091c          0x4
- .ndata             0x091c          0x4 build/default/production/driverGLCD.o
-                    0x091c                  _kursorX
-                    0x091d                  _kursorY
-                    0x091e                  _strana
+.ndata              0x091e          0x4
+ .ndata             0x091e          0x4 build/default/production/driverGLCD.o
+                    0x091e                  _kursorX
+                    0x091f                  _kursorY
+                    0x0920                  _strana
 
-.bss                0x0920          0x6
- .bss               0x0920          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libc-elf.a(rand.eo)
+.bss                0x0922          0x6
+ .bss               0x0922          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libc-elf.a(rand.eo)
 
 .const              0x842a        0x9fc load address 0x00042a  
  .const             0x842a        0x9b0 build/default/production/driverGLCD.o
@@ -1544,61 +1549,62 @@ __c30_signature
                     0x8dde                  _AD_Ymin
                     0x8de0                  _AD_Ymax
 
-.text             0x000e26       0x1142
- .text            0x000e26        0x91c build/default/production/driverGLCD.o
-                  0x000e26                  _SetRST
-                  0x000e46                  _SetE
-                  0x000e64                  _SetRW
-                  0x000e82                  _SetRS
-                  0x000ea0                  _SetCS2
-                  0x000ec0                  _SetCS1
-                  0x000ede                  _ConfigureLCDPins
-                  0x000f0c                  _ConfigureLcdData
-                  0x000f40                  _SetLcdData
-                  0x000f7e                  _ReadLcdData
-                  0x000fa4                  _strobe_data
-                  0x000fb2                  _LcdInstructionWrite
-                  0x000fc8                  _LcdDelay
-                  0x000fe0                  _LcdWaitBusy
-                  0x00100e                  _GoToX
-                  0x001054                  _GoToY
-                  0x00106e                  _GoToXY
-                  0x001080                  _LcdSelectStartline
-                  0x001090                  _LcdSelectSide
-                  0x0010d0                  _LcdDataRead
-                  0x001102                  _GLCD_LcdInit
-                  0x001164                  _LcdDataWrite
-                  0x00117a                  _GLCD_ClrScr
-                  0x0011c6                  _GLCD_FillScr
-                  0x001212                  _GLCD_DisplayPicture
-                  0x001286                  _LcdSetDot
-                  0x0012ca                  _LcdResDot
-                  0x001310                  _GLCD_Circle
-                  0x001434                  _GLCD_Rectangle
-                  0x0014a6                  _Glcd_PutChar
-                  0x001536                  _Glcd_PutCharBig
-                  0x00162c                  _GLCD_Printf
-                  0x001648                  _GLCD_ShowGreed
-                  0x0016d0                  _GLCD_Clr_Rectangle
- .text            0x001742        0x826 build/default/production/RS232main.o
-                  0x001742                  _ConfigureTSPins
-                  0x00174c                  _Init_T2
-                  0x001762                  _initUART1
-                  0x00177c                  __U1RXInterrupt
-                  0x0017b8                  __ADCInterrupt
-                  0x0017ec                  __T2Interrupt
-                  0x0017fe                  _WriteUART1
-                  0x001826                  _RS232_putst
-                  0x001844                  _WriteUART1dec2string
-                  0x0018c6                  _Delay
-                  0x0018de                  _Touch_Panel
-                  0x001944                  _Write_GLCD
-                  0x0019c2                  _main
+.text             0x000e26       0x126a
+ .text            0x000e26        0x94e build/default/production/RS232main.o
+                  0x000e26                  _ConfigureTSPins
+                  0x000e30                  _initUART1
+                  0x000e4a                  __U1RXInterrupt
+                  0x000e7e                  __ADCInterrupt
+                  0x000eaa                  _WriteUART1
+                  0x000ed2                  _RS232_putst
+                  0x000ef0                  _WriteUART1dec2string
+                  0x000f72                  _Delay
+                  0x000f8a                  _Touch_Panel
+                  0x000ff0                  _Write_GLCD
+                  0x00106e                  _buzzer
+                  0x0010da                  _buzzer_go
+                  0x001148                  _buzzer_win
+                  0x0011b8                  _main
+ .text            0x001774        0x91c build/default/production/driverGLCD.o
+                  0x001774                  _SetRST
+                  0x001794                  _SetE
+                  0x0017b2                  _SetRW
+                  0x0017d0                  _SetRS
+                  0x0017ee                  _SetCS2
+                  0x00180e                  _SetCS1
+                  0x00182c                  _ConfigureLCDPins
+                  0x00185a                  _ConfigureLcdData
+                  0x00188e                  _SetLcdData
+                  0x0018cc                  _ReadLcdData
+                  0x0018f2                  _strobe_data
+                  0x001900                  _LcdInstructionWrite
+                  0x001916                  _LcdDelay
+                  0x00192e                  _LcdWaitBusy
+                  0x00195c                  _GoToX
+                  0x0019a2                  _GoToY
+                  0x0019bc                  _GoToXY
+                  0x0019ce                  _LcdSelectStartline
+                  0x0019de                  _LcdSelectSide
+                  0x001a1e                  _LcdDataRead
+                  0x001a50                  _GLCD_LcdInit
+                  0x001ab2                  _LcdDataWrite
+                  0x001ac8                  _GLCD_ClrScr
+                  0x001b14                  _GLCD_FillScr
+                  0x001b60                  _GLCD_DisplayPicture
+                  0x001bd4                  _LcdSetDot
+                  0x001c18                  _LcdResDot
+                  0x001c5e                  _GLCD_Circle
+                  0x001d82                  _GLCD_Rectangle
+                  0x001df4                  _Glcd_PutChar
+                  0x001e84                  _Glcd_PutCharBig
+                  0x001f7a                  _GLCD_Printf
+                  0x001f96                  _GLCD_ShowGreed
+                  0x00201e                  _GLCD_Clr_Rectangle
 
-.dinit            0x001f68         0xa6
- .dinit           0x001f68         0xa6 data_init
+.dinit            0x002090         0xa6
+ .dinit           0x002090         0xa6 data_init
 
-.text             0x00200e         0x88
- .text            0x00200e         0x88 build/default/production/adc.o
-                  0x00200e                  _ConfigureADCPins
-                  0x002024                  _ADCinit
+.text             0x002136         0x88
+ .text            0x002136         0x88 build/default/production/adc.o
+                  0x002136                  _ConfigureADCPins
+                  0x00214c                  _ADCinit

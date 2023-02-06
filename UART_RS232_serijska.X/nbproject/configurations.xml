@@ -175,6 +175,9 @@
         <property key="relaxed-math" value="false"/>
         <property key="save-temps" value="false"/>
       </C30Global>
+      <ICD3PlatformTool>
+        <property key="debugoptions.useswbreakpoints" value="true"/>
+      </ICD3PlatformTool>
     </conf>
   </confs>
 </configurationDescriptor>
