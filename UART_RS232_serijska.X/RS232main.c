@@ -435,6 +435,7 @@ int main(int argc, char** argv) {
                 otkriveno[i]='\0';
             }
             zivoti=6;
+		pomoc=3;
             r1 = fr % 10;//TO_DO ne daje rand broj jer mikrokontroler uvek ima isti seed, promeniti na ucitavanje ADC signala sa nepovezanog pina
             for (duzina = 0; grad[r1][duzina] != '\0'; duzina++); //racunanje duzina stringa
             for(i=0; i<duzina; i++){
