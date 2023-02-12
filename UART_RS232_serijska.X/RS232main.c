@@ -57,7 +57,6 @@ char grad[10][20]={ //lista gradova
     "kraljevo", "budimpesta", "buenos aires"
 };
 
-
 void ConfigureTSPins(void)
 {
 	//ADPCFGbits.PCFG10=1;
@@ -71,20 +70,6 @@ void ConfigureTSPins(void)
 	//LATCbits.LATC13=0;
 }
 
-/*void Init_T2(void)
-{
-	TMR2 = 0;
-	PR2 = TMR2_period;
-	
-	T2CONbits.TCS = 0; // 0 = Internal clock (FOSC/4)
-	//IPC1bits.T2IP = 3 // T2 interrupt pririty (0-7)
-	//SRbits.IPL = 3; // CPU interrupt priority is 3(11)
-	IFS0bits.T2IF = 0; // clear interrupt flag
-	IEC0bits.T2IE = 1; // enable interrupt
-
-	T2CONbits.TON = 1; // T2 on 
-}
-*/
 void initUART1(void)
 {
     U1BRG=0x0040;//ovim odredjujemo baudrate
@@ -302,7 +287,6 @@ int main(int argc, char** argv) {
     pirflag=0;
 
     
-    //r=9;
     r1 = fr % 10;//daje ostatak deljenja sa 10
     for (duzina = 0; grad[r1][duzina] != '\0'; duzina++); //racunanje duzina stringa
     for(i=0; i<duzina; i++){
@@ -323,12 +307,12 @@ int main(int argc, char** argv) {
         GLCD_Printf ("Pomoc PIR-a: "); 
         for(i=0; i<pomoc; i++){
                 GLCD_Printf ("* ");
-            }
+        }
         GoToXY(5,6);
         GLCD_Printf ("Zivoti: ");
         for(i=0; i<zivoti; i++){
-                GLCD_Printf ("<3");
-            }
+        	GLCD_Printf ("<3");
+        }
         GLCD_Rectangle(5,5,41,17);
         GoToXY(10,1);
         GLCD_Printf ("RESET");
@@ -422,27 +406,16 @@ int main(int argc, char** argv) {
                 otkriveno[i]=grad[r1][i];//otkrivanje slova
                 hit=0;//ako je pronadjeno slovo onda spusti flag
             }
-        }
+	}
         for(i=0; i<duzina; i++){//ako nema praznog mesta igrac je pobedio
             if(otkriveno[i]=='_'){
                 win=0;//ako nadje prazno mesto spusti zastavicu za pobedu
             }
         }
+		
         if(hit==1){
             zivoti--;
             buzzer();
-            
-            //TO_DO
-            //LATA=0xffff;
-            //for(broj1=0;broj1<1000;broj1++)
-            //for(broj2=0;broj2<1000;broj2++);
-            //LATA=0x0000;
-           //bazer
-           /* LATAbits.LATA11=1;
-            Delay_ms (10);
-            LATAbits.LATA11=0;
-            Delay_ms (10);*/
-            
         }
         
         if(win==1){//ako pogodi sve
@@ -462,7 +435,6 @@ int main(int argc, char** argv) {
                 otkriveno[i]='\0';
             }
             zivoti=6;
-            //r=9;
             r1 = fr % 10;//TO_DO ne daje rand broj jer mikrokontroler uvek ima isti seed, promeniti na ucitavanje ADC signala sa nepovezanog pina
             for (duzina = 0; grad[r1][duzina] != '\0'; duzina++); //racunanje duzina stringa
             for(i=0; i<duzina; i++){
@@ -497,15 +469,14 @@ int main(int argc, char** argv) {
             }
             zivoti=6;
             pomoc=3;
-            //r=9;
-            r1 = rand() % 10;//TO_DO ne daje rand broj jer mikrokontroler uvek ima isti seed, promeniti na ucitavanje ADC signala sa nepovezanog pina
+            r1 = fr % 10;//TO_DO ne daje rand broj jer mikrokontroler uvek ima isti seed, promeniti na ucitavanje ADC signala sa nepovezanog pina
             for (duzina = 0; grad[r1][duzina] != '\0'; duzina++); //racunanje duzina stringa
             for(i=0; i<duzina; i++){
                 if(grad[r1][i]==' ') otkriveno[i]=' ';
                 else otkriveno[i]='_';//da otkriveno bude niz __ duzine odabranog grada
             };
         }
-        buf=0;//praznjenje buf regisra
+        buf=0;//praznjenje buf promenljive
         
     }//od whilea
 
