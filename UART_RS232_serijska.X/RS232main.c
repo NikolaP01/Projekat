@@ -334,10 +334,14 @@ int main(int argc, char** argv) {
                     otkriveno[i]='\0';
                 }
                 for (duzina = 0; grad[r1][duzina] != '\0'; duzina++); //racunanje duzina stringa
-                for(i=0; i<duzina; i++){
-                    //otkriveno[i]=grad[r][i]; //da otkriveno bude odabrani grad
-                    otkriveno[i]='_';//da otkriveno bude niz __ duzine odabranog grada
-                };
+                //for(i=0; i<duzina; i++){
+                //    //otkriveno[i]=grad[r][i];
+                //    otkriveno[i]='_';//da otkriveno bude niz __ duzine odabranog grada
+                //};
+		for(i=0; i<duzina; i++){
+       			if(grad[r1][i]==' ') otkriveno[i]=' ';
+        		else otkriveno[i]='_';//da otkriveno bude niz __ duzine odabranog grada
+    		};
                 pomoc=3;
                 zivoti=6;
                 
